@@ -19,8 +19,8 @@ impl StatusBox {
         self.storage.insert(username, message);
     }
 
-    pub fn get_message(&self, username: AccountId) -> Option<&Message> {
-        self.storage.get(&username)
+    pub fn get_message(&self, username: &AccountId) -> Option<&Message> {
+        self.storage.get(username)
     }
 }
 
@@ -32,7 +32,7 @@ fn main() {
         match command.as_str() {
             "get" => {
                 let username = Text::new("Какой пользователь?").prompt().unwrap();
-                if let Some(message) = status_box.get_message(username.clone()) {
+                if let Some(message) = status_box.get_message(&username) {
                     println!("Status message: {}", message);
                 } else {
                     println!("There is no status message set for the user '{}' yet", username);
