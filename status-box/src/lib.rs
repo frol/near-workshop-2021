@@ -14,6 +14,7 @@ pub struct StatusBox {
 
 #[near_bindgen]
 impl StatusBox {
+    #[init]
     pub fn new() -> Self {
         Self {
             storage: Default::default(),
