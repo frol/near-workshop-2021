@@ -20,11 +20,11 @@ impl StatusBox {
         }
     }
 
-    pub fn set_message(&mut self, username: AccountId, message: Message) {
+    pub fn set_message(&mut self, username: &AccountId, message: &Message) {
         self.storage.insert(&username, &message);
     }
 
-    pub fn get_message(&self, username: AccountId) -> Option<Message> {
-        self.storage.get(&username)
+    pub fn get_message(&self, username: &AccountId) -> Option<Message> {
+        self.storage.get(username)
     }
 }
