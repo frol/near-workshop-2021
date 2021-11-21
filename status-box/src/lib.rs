@@ -1,11 +1,13 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::near_bindgen;
+use near_sdk::serde::Serialize;
 
 type AccountId = String;
 type Message = String;
 
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize, Default)]
+#[derive(BorshDeserialize, BorshSerialize, Serialize, Default)]
+#[serde(crate = "near_sdk::serde")]
 pub struct StatusBox {
     storage: std::collections::HashMap<AccountId, Message>,
 }
