@@ -1,7 +1,6 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::near_bindgen;
+use near_sdk::{near_bindgen, AccountId};
 
-type AccountId = String;
 type Message = String;
 
 #[near_bindgen]
@@ -20,8 +19,8 @@ impl StatusBox {
         }
     }
 
-    pub fn set_message(&mut self, username: &AccountId, message: &Message) {
-        self.storage.insert(&username, &message);
+    pub fn set_message(&mut self, message: &Message) {
+        self.storage.insert(&near_sdk::env::predecessor_account_id(), &message);
     }
 
     pub fn get_message(&self, username: &AccountId) -> Option<Message> {
