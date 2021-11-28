@@ -1,9 +1,15 @@
+use near_sdk::{near_bindgen, PanicOnDefault};
 use near_sdk::borsh::{self, BorshSerialize, BorshDeserialize};
 use near_sdk::serde::Serialize;
 
+#[near_bindgen]
+#[derive(BorshSerialize, BorshDeserialize, PanicOnDefault, Serialize)]
+#[serde(crate = "near_sdk::serde")]
 struct App;
 
+#[near_bindgen]
 impl App {
+    #[init]
     pub fn new() -> Self {
         Self
     }
@@ -12,7 +18,6 @@ impl App {
     pub fn rate(&mut self, other_user: &near_sdk::AccountId, vote: Vote) {
         assert!(vote >= 1 && vote <= 5, "score value must be in a range of [1; 5]");
         let current_user = near_sdk::env::predecessor_account_id();
-        println!("current_user: {:?}", current_user);
         assert!(&current_user != other_user, "you cannot rate for yourself");
 
         // 1. prevent double-rating
