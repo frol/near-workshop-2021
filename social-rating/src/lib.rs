@@ -2,6 +2,8 @@ use near_sdk::{near_bindgen, PanicOnDefault};
 use near_sdk::borsh::{self, BorshSerialize, BorshDeserialize};
 use near_sdk::serde::Serialize;
 
+const ONE_NEAR: near_sdk::Balance = 1_000_000_000_000_000_000_000_000;
+
 #[near_bindgen]
 #[derive(BorshSerialize, BorshDeserialize, PanicOnDefault, Serialize)]
 #[serde(crate = "near_sdk::serde")]
@@ -15,7 +17,9 @@ impl App {
     }
 
     /// Rate another user `other_user` on bahalf of the current user (`predecessor_account_id`)
+    #[payable]
     pub fn rate(&mut self, other_user: &near_sdk::AccountId, vote: Vote) {
+        assert!(near_sdk::env::attached_deposit() >= ONE_NEAR, "you must attach at least 1 NEAR to rate");
         assert!(vote >= 1 && vote <= 5, "score value must be in a range of [1; 5]");
         let current_user = near_sdk::env::predecessor_account_id();
         assert!(&current_user != other_user, "you cannot rate for yourself");
@@ -72,6 +76,7 @@ mod tests {
     #[test]
     fn it_works() {
         let mut context = get_context(false);
+        context.attached_deposit = ONE_NEAR;
 
         let mut app = App::new();
 
