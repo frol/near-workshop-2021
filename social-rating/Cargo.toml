@@ -8,6 +8,9 @@ edition = "2021"
 [dependencies]
 near-sdk = "4.0.0-pre.4"
 
+[dev-dependencies]
+matches = "0.1.9"
+
 [lib]
 crate-type = ["cdylib"]
 
